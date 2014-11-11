@@ -18,7 +18,6 @@ var Excludes = []string{}
 
 type FileNode struct {
 	Path      string
-	Type      string // "f": file, "d": directory
 	FileNodes []*FileNode
 }
 
@@ -39,12 +38,8 @@ func walk(path string, node *FileNode) {
 		node.FileNodes = append(node.FileNodes, &child)
 
 		if fio.IsDir() {
-			child.Type = "d"
-
 			walk(fpath, &child)
 		} else {
-			child.Type = "f"
-
 			match := match(fpath)
 
 			if !match {
@@ -207,7 +202,7 @@ func main() {
 	t.Execute(&buf, properties)
 	rawHeader = NewRawHeader(buf.String())
 
-	root := &FileNode{Path: dirPath, Type: "d", FileNodes: []*FileNode{}}
+	root := &FileNode{Path: dirPath, FileNodes: []*FileNode{}}
 	walk(dirPath, root)
 
 }
