@@ -178,13 +178,7 @@ func main() {
 
 	useDefaultExcludes := true
 
-	mapping := map[string]string{"java": "SLASHSTAR_STYLE"}
-	// TODO: default mapping
-
 	properties := map[string]string{"year": "2014", "owner": "Liang Ding"}
-
-	// TODO: mapping
-	_ = mapping
 
 	dirPath, err := filepath.Abs(dir)
 	checkErr("Reads dir path error: ", err)
