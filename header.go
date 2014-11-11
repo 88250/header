@@ -59,7 +59,5 @@ func (handler *GoHeaderHandler) Execute(rh *RawHeader) string {
 		buffer.WriteString("// " + line + "\n")
 	}
 
-	buffer.WriteString("\n")
-
 	return buffer.String()
 }

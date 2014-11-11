@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"io/ioutil"
 	"log"
+	"math"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
 )
 
@@ -49,8 +51,6 @@ func walk(path string, node *FileNode) {
 				continue
 			}
 
-			log.Println("path", fpath)
-
 			buf, err := ioutil.ReadFile(fpath)
 			checkErr("Reads file error: ", err)
 
@@ -63,8 +63,29 @@ func walk(path string, node *FileNode) {
 				continue
 			}
 
+			originalContent := string(buf)
 			header := handler.Execute(rawHeader)
-			content := header + string(buf)
+
+			action := getAction(originalContent, header)
+			var content string
+
+			switch action {
+			case "no":
+				continue
+			case "add":
+				content = header + "\n" + originalContent
+				defer log.Printf("Added header to file [%s]", fpath)
+			case "update":
+				headerLines := strings.Split(header, "\n")
+				originalContentLines := strings.Split(originalContent, "\n")
+				contentLines := originalContentLines[len(headerLines):]
+				headerLines = append(headerLines, contentLines...)
+
+				content = strings.Join(headerLines, "\n")
+				defer log.Printf("Updated header to file [%s]", fpath)
+			default:
+				log.Fatalf("Wrong action [%s]", action)
+			}
 
 			fout, err := os.Create(fpath)
 			checkErr("Prepare to write file err: ", err)
@@ -97,12 +118,62 @@ func match(path string) bool {
 	return false
 }
 
+// getAction returns a handle action for the specified original content and header.
+//
+//  1. "add" means need to add the header to the original content
+//  2. "update" means need to update (replace) the header of the original content
+//  3. "no" means nothing need to do
+func getAction(originalContent, header string) string {
+	headerLines := strings.Split(header, "\n")
+	originalContentLines := strings.Split(originalContent, "\n")
+
+	if len(headerLines) > len(originalContentLines) {
+		return "add"
+	}
+
+	originalHeaderLines := originalContentLines[:len(headerLines)]
+
+	result := similar(originalHeaderLines, headerLines)
+	if 100 <= result {
+		return "no"
+	}
+
+	if result >= 70 {
+		return "update"
+	}
+
+	return "no"
+}
+
+// [0, 100]
+//
+//  0: not similar at all
+//  100: as the same
+func similar(lines1, lines2 []string) int {
+	if len(lines1) != len(lines2) {
+		return 0
+	}
+
+	length := len(lines1)
+	same := 0
+	for i := 0; i < length; i++ {
+		l1 := strings.TrimSpace(lines1[i])
+		l2 := strings.TrimSpace(lines2[i])
+
+		if l1 == l2 {
+			same++
+		}
+	}
+
+	return int(math.Floor(float64(same) / float64(length) * 100))
+}
+
 func main() {
-	headerTemplate := "test-header.txt"
+	headerTemplate := "test/test_header.txt"
 
 	dir := "."
 
-	includes := []string{"*.go"}
+	includes := []string{"test/test_*.go"}
 	excludes := []string{""}
 
 	useDefaultExcludes := true
@@ -112,10 +183,7 @@ func main() {
 
 	properties := map[string]string{"year": "2014", "owner": "Liang Ding"}
 
-	// TODO: includes, excludes, useDefaultExcludes, mapping
-	_ = includes
-	_ = excludes
-	_ = useDefaultExcludes
+	// TODO: mapping
 	_ = mapping
 
 	dirPath, err := filepath.Abs(dir)
@@ -152,6 +220,6 @@ func main() {
 
 func checkErr(errMsg string, err error) {
 	if nil != err {
-		log.Fatal(errMsg, err)
+		log.Fatal(errMsg+", caused by: ", err)
 	}
 }
