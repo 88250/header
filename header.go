@@ -24,6 +24,7 @@ type HeaderHandler interface {
 
 var HeaderHandlers = []HeaderHandler{
 	&GoHeaderHandler{Base{Ext: ".go"}},
+	&JSHeaderHandler{Base{Ext: ".js"}},
 }
 
 func GetHandler(ext string) HeaderHandler {
@@ -48,6 +49,7 @@ func (base *Base) GetExt() string {
 
 //////// Handlers ////////
 
+//// Go ////
 type GoHeaderHandler struct {
 	Base
 }
@@ -58,6 +60,23 @@ func (handler *GoHeaderHandler) Execute(rh *RawHeader) string {
 	for _, line := range rh.Lines {
 		buffer.WriteString("// " + line + "\n")
 	}
+
+	return buffer.String()
+}
+
+//// JavaScript ////
+type JSHeaderHandler struct {
+	Base
+}
+
+func (handler *JSHeaderHandler) Execute(rh *RawHeader) string {
+	var buffer bytes.Buffer
+
+	buffer.WriteString("/* \n")
+	for _, line := range rh.Lines {
+		buffer.WriteString(" * " + line + "\n")
+	}
+	buffer.WriteString(" */ \n")
 
 	return buffer.String()
 }

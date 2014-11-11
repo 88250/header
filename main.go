@@ -173,7 +173,7 @@ func main() {
 
 	dir := "."
 
-	includes := []string{"test/test_*.go"}
+	includes := []string{"test/test.*"}
 	excludes := []string{""}
 
 	useDefaultExcludes := true
