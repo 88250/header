@@ -56,7 +56,7 @@ func (handler *GoHeaderHandler) Execute(rh *RawHeader) string {
 	var buffer bytes.Buffer
 
 	for _, line := range rh.Lines {
-		buffer.WriteString("// " + line)
+		buffer.WriteString("// " + line + "\n")
 	}
 
 	buffer.WriteString("\n")
