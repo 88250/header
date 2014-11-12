@@ -1,0 +1,13 @@
+{
+    "Dir": ".",
+    "Template": "test/test_header.txt",
+    "Includes": [
+        "test/test.*"
+    ],
+    "Excludes": [],
+    "UseDefaultExcludes": true,
+	"Properties": {
+		"Year": "2014",
+		"Owner": "B3log"
+	}
+}

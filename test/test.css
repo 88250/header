@@ -1,5 +1,5 @@
 /* 
- * Copyright (c) 2014, Liang Ding
+ * Copyright (c) 2014, B3log
  *  
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"math"
@@ -11,10 +12,18 @@ import (
 	"text/template"
 )
 
-var rawHeader *RawHeader
+type Conf struct {
+	Dir                string
+	Template           string
+	Includes           []string
+	Excludes           []string
+	UseDefaultExcludes bool
+	Properties         map[string]string
+}
 
-var Includes = []string{}
-var Excludes = []string{}
+var conf = &Conf{}
+
+var rawHeader *RawHeader
 
 type FileNode struct {
 	Path      string
@@ -47,7 +56,7 @@ func walk(path string, node *FileNode) {
 			}
 
 			buf, err := ioutil.ReadFile(fpath)
-			checkErr("Reads file error: ", err)
+			checkErr("Reads file error", err)
 
 			ext := filepath.Ext(fpath)
 
@@ -97,17 +106,16 @@ func walk(path string, node *FileNode) {
 func match(path string) bool {
 	path = filepath.ToSlash(path)
 
-	for _, exclude := range Excludes {
+	for _, exclude := range conf.Excludes {
 		if AntPathMatch(exclude, path) {
 			return false
 		}
 	}
 
-	for _, include := range Includes {
+	for _, include := range conf.Includes {
 		if AntPathMatch(include, path) {
 			return true
 		}
-
 	}
 
 	return false
@@ -164,39 +172,37 @@ func similar(lines1, lines2 []string) int {
 }
 
 func main() {
-	headerTemplate := "test/test_header.txt"
+	bts, err := ioutil.ReadFile(".header.json")
+	checkErr("Loads configuration error", err)
 
-	dir := "."
+	err = json.Unmarshal(bts, conf)
+	checkErr("Parses configuration error", err)
 
-	includes := []string{"test/test.*"}
-	excludes := []string{""}
-
-	useDefaultExcludes := true
-
-	properties := map[string]string{"year": "2014", "owner": "Liang Ding"}
+	dir := conf.Dir
+	properties := conf.Properties
 
 	dirPath, err := filepath.Abs(dir)
-	checkErr("Reads dir path error: ", err)
+	checkErr("Reads dir path error", err)
 
 	// Includes
-	for _, include := range includes {
+	for _, include := range conf.Includes {
 		path := filepath.Join(dirPath, include)
 		path = filepath.ToSlash(path)
-		Includes = append(Includes, path)
+		conf.Includes = append(conf.Includes, path)
 	}
 
 	// Excludes
-	if useDefaultExcludes {
-		excludes = append(excludes, DefaultExcludes...)
+	if conf.UseDefaultExcludes {
+		conf.Excludes = append(conf.Excludes, DefaultExcludes...)
 	}
-	for _, exclude := range excludes {
+	for _, exclude := range conf.Excludes {
 		path := filepath.Join(dirPath, exclude)
 		path = filepath.ToSlash(path)
-		Excludes = append(Excludes, path)
+		conf.Excludes = append(conf.Excludes, path)
 	}
 
-	t, err := template.ParseFiles(headerTemplate)
-	checkErr("Can't find header template ["+headerTemplate+"]", err)
+	t, err := template.ParseFiles(conf.Template)
+	checkErr("Can't find header template ["+conf.Template+"]", err)
 
 	var buf bytes.Buffer
 	t.Execute(&buf, properties)
