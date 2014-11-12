@@ -2,13 +2,13 @@
     "Dir": ".",
     "Template": "test/test_header.txt",
     "Includes": [
-		"*.go",
-		"test/test.*"
+        "*.go",
+        "test/test.*"
     ],
     "Excludes": [],
     "UseDefaultExcludes": true,
-	"Properties": {
-		"Year": "2014",
-		"Owner": "B3log"
-	}
+    "Properties": {
+        "Year": "2014",
+        "Owner": "B3log"
+    }
 }
