@@ -2,7 +2,8 @@
     "Dir": ".",
     "Template": "test/test_header.txt",
     "Includes": [
-        "test/test.*"
+		"*.go",
+		"test/test.*"
     ],
     "Excludes": [],
     "UseDefaultExcludes": true,
