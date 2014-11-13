@@ -1,11 +1,11 @@
 // Copyright (c) 2014, B3log
-//  
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-//  
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,153 +16,153 @@ package main
 
 var DefaultExcludes = []string{
 	// miscellaneous typical temporary files
-	"**/*~",
-	"**/#*#",
-	"**/.#*",
-	"**/%*%",
-	"**/._*",
-	"**/.repository/**",
+	"*/*~",
+	"*/#*#",
+	"*/.#*",
+	"*/%*%",
+	"*/._*",
+	"*/.repository/*",
 
 	// CVS
-	"**/CVS",
-	"**/CVS/**",
-	"**/.cvsignore",
+	"*/CVS",
+	"*/CVS/*",
+	"*/.cvsignore",
 
 	// RCS
-	"**/RCS",
-	"**/RCS/**",
+	"*/RCS",
+	"*/RCS/*",
 
 	// SCCS
-	"**/SCCS",
-	"**/SCCS/**",
+	"*/SCCS",
+	"*/SCCS/*",
 
 	// Visual SourceSafe
-	"**/vssver.scc",
+	"*/vssver.scc",
 
 	// Subversion
-	"**/.svn",
-	"**/.svn/**",
+	"*/.svn",
+	"*/.svn/*",
 
 	// Arch
-	"**/.arch-ids",
-	"**/.arch-ids/**",
+	"*/.arch-ids",
+	"*/.arch-ids/*",
 
 	// Bazaar
-	"**/.bzr",
-	"**/.bzr/**",
+	"*/.bzr",
+	"*/.bzr/*",
 
 	//SurroundSCM
-	"**/.MySCMServerInfo",
+	"*/.MySCMServerInfo",
 
 	// Mac
-	"**/.DS_Store",
+	"*/.DS_Store",
 
 	// Serena Dimensions Version 10
-	"**/.metadata",
-	"**/.metadata/**",
+	"*/.metadata",
+	"*/.metadata/*",
 
 	// Mercurial
-	"**/.hg",
-	"**/.hg/**",
-	"**/.hgignore",
+	"*/.hg",
+	"*/.hg/*",
+	"*/.hgignore",
 
 	// git
-	"**/.git",
-	"**/.git/**",
-	"**/.gitignore",
-	"**/.gitmodules",
+	"*/.git",
+	"*/.git/*",
+	"*/.gitignore",
+	"*/.gitmodules",
 
 	// BitKeeper
-	"**/BitKeeper",
-	"**/BitKeeper/**",
-	"**/ChangeSet",
-	"**/ChangeSet/**",
+	"*/BitKeeper",
+	"*/BitKeeper/*",
+	"*/ChangeSet",
+	"*/ChangeSet/*",
 
 	// darcs
-	"**/_darcs",
-	"**/_darcs/**",
-	"**/.darcsrepo",
-	"**/.darcsrepo/**",
-	"**/-darcs-backup*",
-	"**/.darcs-temp-mail",
+	"*/_darcs",
+	"*/_darcs/*",
+	"*/.darcsrepo",
+	"*/.darcsrepo/*",
+	"*/-darcs-backup*",
+	"*/.darcs-temp-mail",
 
 	// maven project's temporary files
-	"**/target/**",
-	"**/test-output/**",
-	"**/release.properties",
-	"**/dependency-reduced-pom.xml",
-	"**/pom.xml.releaseBackup",
+	"*/target/*",
+	"*/test-output/*",
+	"*/release.properties",
+	"*/dependency-reduced-pom.xml",
+	"*/pom.xml.releaseBackup",
 
 	// code coverage tools
-	"**/cobertura.ser",
-	"**/.clover/**",
+	"*/cobertura.ser",
+	"*/.clover/*",
 
 	// eclipse project files
-	"**/.classpath",
-	"**/.project",
-	"**/.settings/**",
+	"*/.classpath",
+	"*/.project",
+	"*/.settings/*",
 
 	// IDEA projet files
-	"**/*.iml",
-	"**/*.ipr",
-	"**/*.iws",
-	".idea/**",
+	"*/*.iml",
+	"*/*.ipr",
+	"*/*.iws",
+	".idea/*",
 
 	// descriptors
-	"**/MANIFEST.MF",
+	"*/MANIFEST.MF",
 
 	// binary files - images
-	"**/*.jpg",
-	"**/*.png",
-	"**/*.gif",
-	"**/*.ico",
-	"**/*.bmp",
-	"**/*.tiff",
-	"**/*.tif",
-	"**/*.cr2",
-	"**/*.xcf",
+	"*/*.jpg",
+	"*/*.png",
+	"*/*.gif",
+	"*/*.ico",
+	"*/*.bmp",
+	"*/*.tiff",
+	"*/*.tif",
+	"*/*.cr2",
+	"*/*.xcf",
 
 	// binary files - programs
-	"**/*.class",
-	"**/*.exe",
-	"**/*.dll",
-	"**/*.so",
+	"*/*.class",
+	"*/*.exe",
+	"*/*.dll",
+	"*/*.so",
 
 	// checksum files
-	"**/*.md5",
-	"**/*.sha1",
+	"*/*.md5",
+	"*/*.sha1",
 
 	// binary files - archives
-	"**/*.jar",
-	"**/*.zip",
-	"**/*.rar",
-	"**/*.tar",
-	"**/*.tar.gz",
-	"**/*.tar.bz2",
-	"**/*.gz",
+	"*/*.jar",
+	"*/*.zip",
+	"*/*.rar",
+	"*/*.tar",
+	"*/*.tar.gz",
+	"*/*.tar.bz2",
+	"*/*.gz",
 
 	// binary files - documents
-	"**/*.xls",
+	"*/*.xls",
 
 	// ServiceLoader files
-	"**/META-INF/services/**",
+	"*/META-INF/services/*",
 
 	// Markdown files
-	"**/*.md",
+	"*/*.md",
 
 	// Office documents
-	"**/*.xls",
-	"**/*.doc",
-	"**/*.odt",
-	"**/*.ods",
-	"**/*.pdf",
+	"*/*.xls",
+	"*/*.doc",
+	"*/*.odt",
+	"*/*.ods",
+	"*/*.pdf",
 
 	// Travis
-	"**/.travis.yml",
+	"*/.travis.yml",
 
 	// flash
-	"**/*.swf",
+	"*/*.swf",
 
 	// json files
-	"**/*.json",
+	"*/*.json",
 }
