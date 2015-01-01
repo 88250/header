@@ -1,11 +1,11 @@
 // Copyright (c) 2014, B3log
-//  
+//
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
 // You may obtain a copy of the License at
-//  
+//
 //     http://www.apache.org/licenses/LICENSE-2.0
-//  
+//
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -73,7 +73,11 @@ func (handler *GoHeaderHandler) Execute(rh *RawHeader) string {
 	var buffer bytes.Buffer
 
 	for _, line := range rh.Lines {
-		buffer.WriteString("// " + line + "\n")
+		if "\r" == line || "\n" == line {
+			buffer.WriteString("//\n")
+		} else {
+			buffer.WriteString("// " + line + "\n")
+		}
 	}
 
 	return buffer.String()
@@ -87,11 +91,15 @@ type JSHeaderHandler struct {
 func (handler *JSHeaderHandler) Execute(rh *RawHeader) string {
 	var buffer bytes.Buffer
 
-	buffer.WriteString("/* \n")
+	buffer.WriteString("/*\n")
 	for _, line := range rh.Lines {
-		buffer.WriteString(" * " + line + "\n")
+		if "\r" == line || "\n" == line {
+			buffer.WriteString(" *\n")
+		} else {
+			buffer.WriteString(" * " + line + "\n")
+		}
 	}
-	buffer.WriteString(" */ \n")
+	buffer.WriteString(" */\n")
 
 	return buffer.String()
 }
@@ -104,11 +112,15 @@ type CSSHeaderHandler struct {
 func (handler *CSSHeaderHandler) Execute(rh *RawHeader) string {
 	var buffer bytes.Buffer
 
-	buffer.WriteString("/* \n")
+	buffer.WriteString("/*\n")
 	for _, line := range rh.Lines {
-		buffer.WriteString(" * " + line + "\n")
+		if "\r" == line || "\n" == line {
+			buffer.WriteString(" *\n")
+		} else {
+			buffer.WriteString(" * " + line + "\n")
+		}
 	}
-	buffer.WriteString(" */ \n")
+	buffer.WriteString(" */\n")
 
 	return buffer.String()
 }
