@@ -11,13 +11,13 @@ A utility to add source code file header.
     "Dir": ".",
     "Template": ".header.txt",
     "Includes": [
-        "*.go"
+        "**.go"
     ],
     "Excludes": [],
     "UseDefaultExcludes": true,
     "Properties": {
-        "Year": "2015-2016",
-        "Owner": "fangstar.com"
+        "Year": "2015-2018",
+        "Owner": "b3log.org & hacpai.com"
     }
   }
   ```
