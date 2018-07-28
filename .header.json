@@ -2,7 +2,7 @@
     "Dir": ".",
     "Template": "test/test_header.txt",
     "Includes": [
-        "*.go",
+        "**.go",
         "test/test.*"
     ],
     "Excludes": [],
